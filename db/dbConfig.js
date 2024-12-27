@@ -1,26 +1,28 @@
-const sql = require('mssql');
+const sql = require('mssql/msnodesqlv8');
 
 const config = {
-    user: '', // your SQL Server username (leave blank for Windows Authentication)
-    password: '', // your SQL Server password (leave blank for Windows Authentication)
-    server: 'localhost', // SQL Server name or IP address
-    database: 'pos', // name of the database to connect to
+    database: 'pos',
+    server: 'DESKTOP-7B80IM0',
     options: {
-        encrypt: true, // Use encryption for the connection (use false for local development without encryption)
-        trustServerCertificate: true, // Set this to true if using a self-signed certificate
+      trustedConnection: true, // Enables Windows Authentication
+      encrypt: false, // Disable encryption for local development
+      trustServerCertificate: true, // Required for self-signed certificates
+    },
+    port: 1433, // Default port number
+    driver: 'msnodesqlv8', // Use the msnodesqlv8 driver
+    pool: {
+      max: 10,
+      min: 0,
+      idleTimeoutMillis: 30000,
     },
 };
 
-// Create a pool of connections
 const poolPromise = new sql.ConnectionPool(config)
-    .connect()
-    .then(pool => {
-        console.log('Connected to MSSQL');
-        return pool;
-    })
-    .catch(err => {
-        console.error('Database connection failed:', err);
-        process.exit(1); // Exit the process if database connection fails
-    });
+  .connect()
+  .then(pool => {
+    console.log('Connected to MSSQL');
+    return pool;
+  })
+  .catch(err => console.error('Database Connection Failed: ', err));
 
 module.exports = { sql, poolPromise };
