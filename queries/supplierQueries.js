@@ -1,6 +1,6 @@
 const queries = {
     getAllSuppliers: `
-      SELECT supplierID, fName
+      SELECT supplierID, fName,lname,firstAddress,secondAddress,mobileNumber,employeeID
       FROM Supplier;
     `,
   };
