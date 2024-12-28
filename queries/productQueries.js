@@ -12,6 +12,10 @@ const queries = {
     INSERT INTO Supplies (supplierID, productID, date)
     VALUES (@supplierID, @productID, GETDATE());
   `,
+  getAllProducts: `
+    SELECT productID, pName, unitPrice, inStockCount, lowStockCount, categoryID
+    FROM Product;
+  `,
 };
 
 module.exports = queries;
